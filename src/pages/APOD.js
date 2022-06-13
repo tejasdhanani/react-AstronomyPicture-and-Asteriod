@@ -12,48 +12,40 @@ export const APOD = () => {
         "https://api.nasa.gov/planetary/apod?api_key=KoeXm56GamRb6bpoUhU5dRfKycCyIceQVb1GhMBM"
       );
       setApod(response);
+      // console.log(response);
 
       try {
-        await fetch(response.hdurl);
+        await fetch(response.hdurl, { mode: "no-cors" });
+        console.log("loading the hdurl: ", response.hdurl);
         setBgUrl(response.hdurl);
-      } catch {
+      } catch (error) {
+        console.log("ERROR: ", error);
+        console.log("loading the url: ", response.url);
         setBgUrl(response.url);
       }
 
       setLoading(false);
-
-      fetch(response.hdurl)
-        .then((response) => {
-          console.log("response.status: ", response.status); // 👉️ 200
-          setBgUrl(response.hdurl);
-        })
-        .catch((err) => {
-          console.log("error: " + err);
-          setBgUrl(response.url);
-        });
     }
 
     asyncFetch();
   }, []);
 
-  const background = {
-    backgroundImage: "url(" + bgUrl + ")",
-    height: "100vh",
-    backgroundPosition: "center",
-    backgroundRepeat: "no-repeat",
-  };
-
   if (loading) {
     return <h3>App is loading, please wait...</h3>;
   }
   return (
-    <>
-      <h1 className="text-center my-2">{apod.title}</h1>
+    <div className="text-light">
+      <h1 className="text-center mt-4">{apod.title}</h1>
       <h3 className="text-center my-2">{apod.copyright}</h3>
 
       <div
         className="d-flex justify-content-center align-items-center"
-        style={background}
+        style={{
+          backgroundImage: "url(" + bgUrl + ")",
+          height: "100vh",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
       ></div>
       <p
         className="text-justify m-4 fw-light"
@@ -64,6 +56,6 @@ export const APOD = () => {
       >
         {apod.explanation}
       </p>
-    </>
+    </div>
   );
 };

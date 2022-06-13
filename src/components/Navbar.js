@@ -18,12 +18,12 @@ export const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <a className="nav-link" href="/">
+              <a className="nav-link text-dark" href="/">
                 APOD
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/neo">
+              <a className="nav-link text-dark" href="/neo">
                 NEO
               </a>
             </li>
