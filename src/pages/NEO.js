@@ -4,21 +4,21 @@ import "react-calendar/dist/Calendar.css";
 import { Calendar } from "react-calendar";
 import { MdDateRange } from "react-icons/md";
 import "./neo.css";
+import moment from "moment";
 
 export const NEO = () => {
   const [loading, setLoading] = useState(true);
   const [neo, setNeo] = useState("");
   const [date, setDate] = useState(new Date());
-  // const todaysDate = new Date().toLocaleDateString();
 
   useEffect(() => {
     async function asyncFetch() {
       let response = await fetchApi(
         "https://api.nasa.gov/neo/rest/v1/feed?" +
           "start_date=" +
-          date.toLocaleDateString() +
+          moment(date).format('YYYY-MM-DD') +
           "&end_date=" +
-          date.toLocaleDateString() +
+          moment(date).format('YYYY-MM-DD') +
           "&api_key=KoeXm56GamRb6bpoUhU5dRfKycCyIceQVb1GhMBM"
       );
       setNeo(response.near_earth_objects);
@@ -33,7 +33,7 @@ export const NEO = () => {
     return (
       <div className="pt-3" style={{ width: "75%", margin: "0 auto" }}>
         <div className="d-flex flex-wrap justify-content-around">
-          {neo[date.toLocaleDateString()].map((n) => (
+          {neo[moment(date).format('YYYY-MM-DD')].map((n) => (
             <a
               key={n.id}
               className="neoStyle card text-white bg-dark m-3 container-sm text-decoration-none"
@@ -89,7 +89,7 @@ export const NEO = () => {
     );
   };
 
-  if (!loading && neo[date.toLocaleDateString()]) {
+  if (!loading && neo[moment(date).format('YYYY-MM-DD')]) {
     return (
       <>
         <div className="d-flex justify-content-center my-4">
