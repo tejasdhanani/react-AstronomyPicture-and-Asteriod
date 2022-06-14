@@ -31,7 +31,7 @@ export const NEO = () => {
 
   const NeoItem = () => {
     return (
-      <div className="pt-3" style={{ width: "75%", margin: "0 auto" }}>
+      <div className="neo-container pt-3" style={{ width: "75%", margin: "0 auto" }}>
         <div className="d-flex flex-wrap justify-content-around">
           {neo[moment(date).format('YYYY-MM-DD')].map((n) => (
             <a

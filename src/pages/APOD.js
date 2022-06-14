@@ -38,15 +38,9 @@ export const APOD = () => {
       <h1 className="text-center mt-4">{apod.title}</h1>
       <h3 className="text-center my-2">{apod.copyright}</h3>
 
-      <div
-        className="d-flex justify-content-center align-items-center"
-        style={{
-          backgroundImage: "url(" + bgUrl + ")",
-          height: "100vh",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-        }}
-      ></div>
+      <img src={bgUrl} alt="image of apod" style={{
+        width: "100%",
+      }} />
       <p
         className="text-justify m-4 fw-light"
         style={{
