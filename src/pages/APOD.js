@@ -1,38 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { fetchApi } from "../functions/fetchApi";
 
 export const APOD = () => {
   const [loading, setLoading] = useState(true);
   const [apod, setApod] = useState("");
-  const [bgUrl, setBgUrl] = useState("");
-  const [isImage, setIsImage] = useState(true);
 
   useEffect(() => {
-    async function asyncFetch() {
-      let response = await fetchApi(
+    (async () => {
+      const response = await fetch(
         "https://api.nasa.gov/planetary/apod?api_key=KoeXm56GamRb6bpoUhU5dRfKycCyIceQVb1GhMBM"
       );
-      setApod(response);
-      // console.log(response);
-
-      if (response.media_type === "video") {
-        setIsImage(false);
-      }
-
-      try {
-        await fetch(response.hdurl, { mode: "no-cors" });
-        console.log("loading the hdurl: ", response.hdurl);
-        setBgUrl(response.hdurl);
-      } catch (error) {
-        console.log("ERROR: ", error);
-        console.log("loading the url: ", response.url);
-        setBgUrl(response.url);
-      }
+      const data = await response.json();
+      setApod(data);
 
       setLoading(false);
-    }
-
-    asyncFetch();
+    })();
   }, []);
 
   if (loading) {
@@ -43,7 +24,7 @@ export const APOD = () => {
       <h1 className="text-center mt-4">{apod.title}</h1>
       <h3 className="text-center my-2">{apod.copyright}</h3>
 
-      {!isImage ? (
+      {apod.media_type === "video" ? (
         <div style={{ textAlign: "center" }}>
           <iframe
             src={apod.url}
@@ -57,7 +38,7 @@ export const APOD = () => {
         </div>
       ) : (
         <img
-          src={bgUrl}
+          src={apod.hdurl}
           alt="astronomical display of the day"
           style={{
             width: "100%",
