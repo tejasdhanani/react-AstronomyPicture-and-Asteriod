@@ -16,10 +16,11 @@ export const NEO = () => {
       let response = await fetchApi(
         "https://api.nasa.gov/neo/rest/v1/feed?" +
           "start_date=" +
-          moment(date).format('YYYY-MM-DD') +
+          moment(date).format("YYYY-MM-DD") +
           "&end_date=" +
-          moment(date).format('YYYY-MM-DD') +
-          "&api_key=KoeXm56GamRb6bpoUhU5dRfKycCyIceQVb1GhMBM"
+          moment(date).format("YYYY-MM-DD") +
+          "&api_key=" +
+          process.env.REACT_APP_API_KEY
       );
       setNeo(response.near_earth_objects);
       console.log(response.near_earth_objects);
@@ -31,9 +32,12 @@ export const NEO = () => {
 
   const NeoItem = () => {
     return (
-      <div className="neo-container pt-3" style={{ width: "75%", margin: "0 auto" }}>
+      <div
+        className="neo-container pt-3"
+        style={{ width: "75%", margin: "0 auto" }}
+      >
         <div className="d-flex flex-wrap justify-content-around">
-          {neo[moment(date).format('YYYY-MM-DD')].map((n) => (
+          {neo[moment(date).format("YYYY-MM-DD")].map((n) => (
             <a
               key={n.id}
               className="neoStyle card text-white bg-dark m-3 container-sm text-decoration-none"
@@ -89,7 +93,7 @@ export const NEO = () => {
     );
   };
 
-  if (!loading && neo[moment(date).format('YYYY-MM-DD')]) {
+  if (!loading && neo[moment(date).format("YYYY-MM-DD")]) {
     return (
       <>
         <div className="d-flex justify-content-center my-4">
