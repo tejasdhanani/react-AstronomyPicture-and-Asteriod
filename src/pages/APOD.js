@@ -5,6 +5,7 @@ export const APOD = () => {
   const [loading, setLoading] = useState(true);
   const [apod, setApod] = useState("");
   const [bgUrl, setBgUrl] = useState("");
+  const [isImage, setIsImage] = useState(true);
 
   useEffect(() => {
     async function asyncFetch() {
@@ -13,6 +14,10 @@ export const APOD = () => {
       );
       setApod(response);
       // console.log(response);
+
+      if (response.media_type === "video") {
+        setIsImage(false);
+      }
 
       try {
         await fetch(response.hdurl, { mode: "no-cors" });
@@ -38,9 +43,27 @@ export const APOD = () => {
       <h1 className="text-center mt-4">{apod.title}</h1>
       <h3 className="text-center my-2">{apod.copyright}</h3>
 
-      <img src={bgUrl} alt="image of apod" style={{
-        width: "100%",
-      }} />
+      {!isImage ? (
+        <div style={{ textAlign: "center" }}>
+          <iframe
+            src={apod.url}
+            frameborder="0"
+            allow="autoplay"
+            allowfullscreen
+            title="video"
+            height="400"
+            width="800"
+          />
+        </div>
+      ) : (
+        <img
+          src={bgUrl}
+          alt="astronomical display of the day"
+          style={{
+            width: "100%",
+          }}
+        />
+      )}
       <p
         className="text-justify m-4 fw-light"
         style={{
