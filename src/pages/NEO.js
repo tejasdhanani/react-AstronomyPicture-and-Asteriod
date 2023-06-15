@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { fetchApi } from "../functions/fetchApi";
 import "react-calendar/dist/Calendar.css";
 import { Calendar } from "react-calendar";
 import { MdDateRange } from "react-icons/md";
@@ -12,8 +11,8 @@ export const NEO = () => {
   const [date, setDate] = useState(new Date());
 
   useEffect(() => {
-    async function asyncFetch() {
-      let response = await fetchApi(
+    (async () => {
+      let response = await fetch(
         "https://api.nasa.gov/neo/rest/v1/feed?" +
           "start_date=" +
           moment(date).format("YYYY-MM-DD") +
@@ -22,12 +21,10 @@ export const NEO = () => {
           "&api_key=" +
           process.env.REACT_APP_API_KEY
       );
-      setNeo(response.near_earth_objects);
-      console.log(response.near_earth_objects);
+      const data = await response.json();
+      setNeo(data.near_earth_objects);
       setLoading(false);
-    }
-
-    asyncFetch(date);
+    })();
   }, [date]);
 
   const NeoItem = () => {
